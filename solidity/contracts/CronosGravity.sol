@@ -31,7 +31,6 @@ contract CronosGravity is Gravity, AccessControl, Pausable, Ownable {
     ) {
         _setupRole(RELAYER_ADMIN, relayerAdmin);
         _setRoleAdmin(RELAYER, RELAYER_ADMIN);
-        _setRoleAdmin(RELAYER_ADMIN, RELAYER_ADMIN);
     }
 
     function pause() public onlyOwner {
@@ -121,7 +120,7 @@ contract CronosGravity is Gravity, AccessControl, Pausable, Ownable {
     function transferRelayerAdmin (
         address _newAdmin
     ) public onlyRole(RELAYER_ADMIN) {
-        grantRole(RELAYER_ADMIN, _newAdmin);
-        revokeRole(RELAYER_ADMIN, msg.sender);
+        _setupRole(RELAYER_ADMIN, _newAdmin);
+        renounceRole(RELAYER_ADMIN, msg.sender);
     }
 }
